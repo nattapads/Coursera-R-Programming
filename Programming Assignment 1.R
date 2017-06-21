@@ -23,7 +23,9 @@ complete <- function(directory,id = 1:332) {
                 DF <- rbind(DF, read.csv(files_list[i]))
         }
         DF <- DF[complete.cases(DF),]
-        aggregate(sulfate ~ ID, DF,length)
+        Agg <- aggregate(sulfate ~ ID, DF,length)
+        colnames(Agg) <- c("id", "nobs")
+        Agg
 }
 
 pollutantmean <- function(directory,pollutant,id = 1:332) {
