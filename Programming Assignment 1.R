@@ -8,9 +8,10 @@ corr <- function(directory,threshold = 0) {
         Nona <- DF[complete.cases(DF),]
         AggNona <- aggregate(sulfate ~ ID, Nona,length)
         MerNa <- merge(Nona,AggNona,by.x = "ID", by.y = "ID")
-        Correl <- MerNa[MerNa$sulfate.y>threshold,]
+        colnames(MerNa) <- c("ID","Date","sulfate","nitrate","nobs")
+        Correl <- MerNa[MerNa$nobs>threshold,]
         Output <- by(Correl[,3:4], Correl$ID, function(x) {
-                cor(x$sulfate.x, x$nitrate)
+                cor(x$sulfate, x$nitrate)
         }) 
         Output.df <- as.data.frame(as.matrix(Output))
         Output.df[,1]
